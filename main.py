@@ -17,10 +17,14 @@ RE = re.compile(
 results = []
 
 
-def record(message):
+def record(message: str) -> Any:
+    """
+    Test function to overwrite the default record of basic instrumentation
+    """
     global results
     res = RE(message)
     results.append(res.groupdict())
+    # TODO: Instead of printing, we'll send the aggregated results to Prometheus (maybe)
     print(results)
 
 
@@ -34,12 +38,13 @@ df = None
 @repeat_every(seconds=300)
 def generate_numbers() -> None:
     global df
+    # Generated a random pandas Series for testing
     l = [random.randint(2, 5) for i in range(random.randint(1000000, 10000000))]
     df = pd.DataFrame({"value": l})
 
 
 @app.get("/items/")
-async def get_items():
+async def get_items() -> dict:
     desc = df.value
     return {
         "total": len(desc),
