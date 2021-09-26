@@ -9,6 +9,7 @@ from fastapi import FastAPI
 from fastapi_utils.tasks import repeat_every
 from fastapi_utils.timing import add_timing_middleware
 
+# Parse the text output
 RE = re.compile(
     "TIMING:\s+Wall:\s+(?P<wall>[\d\.]*)ms\s+\|\s+CPU:\s+(?P<cpu>[\d\.]*)ms\s+\|\s+main\.(?P<name>\w*)"
 ).match
@@ -33,8 +34,8 @@ add_timing_middleware(app, record=record)
 df = None
 
 
-@app.on_event("startup")
-@repeat_every(seconds=300)
+@app.on_event("startup")  # Run when API starts
+@repeat_every(seconds=300)  # then run every 5min
 def generate_numbers() -> None:
     global df
     # Generated a random pandas Series for testing
