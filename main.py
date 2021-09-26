@@ -2,8 +2,6 @@ import pandas as pd
 import random
 import re
 
-from typing import Any
-
 
 from fastapi import FastAPI
 from fastapi_utils.tasks import repeat_every
@@ -17,7 +15,7 @@ RE = re.compile(
 results = []
 
 
-def record(message: str) -> Any:
+def record(message: str) -> None:
     """
     Test function to overwrite the default record of basic instrumentation
     """
